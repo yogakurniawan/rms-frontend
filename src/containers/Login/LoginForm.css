@@ -1,0 +1,44 @@
+.root {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.container {
+  margin: 0 auto;
+  margin-top: 25vh;
+  max-width: 450px;
+  box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, 0.4);
+  transform: perspective(1px) translateZ(0);
+  transition-duration: 0.8s;
+  transition-property: color, background-color;
+}
+
+.headerBox {
+  padding: 10px;
+  text-align: center;
+  background: #3f51b5;
+}
+
+.headerBox span {
+  font-size: 1.25em;
+  font-weight: 500;
+  color: #fff;
+}
+
+.contentBox {
+  padding: 10px;
+}
+
+.rmsInputField {
+  padding: 0px 1em 1em;
+}
+
+.rmsLoginButton {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.rmsLoginButtonWrapper {
+  padding: 0px 1em 1em;
+  text-align: right;
+}
