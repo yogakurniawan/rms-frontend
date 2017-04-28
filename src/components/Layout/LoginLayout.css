@@ -1,0 +1,19 @@
+.fixedHeaderContainer {
+  box-sizing: border-box;
+  background: #3f51b5;
+  color: #fff;
+  height: 44px;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  top: 0;
+}
+
+.fixedHeaderContainer span {
+  line-height: 2.5;
+  font-weight: 500;
+}
+
+.fixedHeaderContainer img {
+  height: 24px;
+}
