@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import logoUrl from './rms-logo.png';
 import './LoginLayout.css';
 
-function Component({ children }) {
+function LoginLayout({ children }) {
   return (
     <div>
-      <div className="fixedHeaderContainer">
+      <div className="LoginLayout">
         <div className="row center-xs">
           <div className="col-xs-12">
             <span><img src={logoUrl} alt="RMS" /></span>
@@ -18,9 +18,9 @@ function Component({ children }) {
   )
 }
 
-Component.propTypes = {
+LoginLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default Component;
+export default LoginLayout;
 
