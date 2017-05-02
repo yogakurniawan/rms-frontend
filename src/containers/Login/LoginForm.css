@@ -1,9 +1,9 @@
-.root {
+.LoginForm {
   padding-left: 20px;
   padding-right: 20px;
 }
 
-.container {
+.LoginForm__Container {
   margin: 0 auto;
   margin-top: 25vh;
   max-width: 450px;
@@ -13,32 +13,32 @@
   transition-property: color, background-color;
 }
 
-.headerBox {
+.LoginForm__HeaderBox {
   padding: 10px;
   text-align: center;
   background: #3f51b5;
 }
 
-.headerBox span {
+.LoginForm__HeaderBox span {
   font-size: 1.25em;
   font-weight: 500;
   color: #fff;
 }
 
-.contentBox {
+.LoginForm__ContentBox {
   padding: 10px;
 }
 
-.rmsInputField {
+.LoginForm__RmsInputField {
   padding: 0px 1em 1em;
 }
 
-.rmsLoginButton {
+.LoginForm__RmsLoginButton {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.rmsLoginButtonWrapper {
+.LoginForm__RmsLoginButtonWrapper {
   padding: 0px 1em 1em;
   text-align: right;
 }

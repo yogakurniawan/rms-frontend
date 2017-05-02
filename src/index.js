@@ -16,6 +16,9 @@ injectTapEventPlugin();
 
 const muiTheme = getMuiTheme({
   userAgent: 'all',
+  palette: {
+    primary1Color: '#3f51b5'
+  }
 });
 
 const initialState = {};
