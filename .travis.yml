@@ -1,11 +1,12 @@
-warnings_are_errors: false
 dist: trusty
 sudo: required
 language: node_js
 node_js:
-- 6
+  - 6
+env:
+  - CI=false
 script:
-- yarn build
+  - yarn build
 deploy:
   provider: heroku
   api_key:
