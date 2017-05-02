@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -23,18 +22,18 @@ class LoginForm extends React.Component {
   render() {
     const { onSubmit } = this.props;
     return (
-      <div className="root">
-        <div className="container">
-          <div className="headerBox">
+      <div className="LoginForm">
+        <div className="LoginForm__Container">
+          <div className="LoginForm__HeaderBox">
             <span>Login</span>
           </div>
-          <div className="contentBox">
+          <div className="LoginForm__ContentBox">
             <form onSubmit={onSubmit}>
-              <div className="rmsInputField">
-                <Field id="rms-username" fullWidth={true} name="Username" component={renderTextField} label="Username" />
+              <div className="LoginForm__RmsInputField">
+                <Field  id="rms-username" fullWidth={true} name="Username" component={renderTextField} label="Username" />
                 <Field id="rms-password" fullWidth={true} name="Password" type="password" component={renderTextField} label="Password" />
               </div>
-              <div className="rmsLoginButtonWrapper">
+              <div className="LoginForm__RmsLoginButtonWrapper">
                 <RaisedButton type="submit" className="rmsLoginButton" label="Login" secondary={true} />
               </div>
             </form>

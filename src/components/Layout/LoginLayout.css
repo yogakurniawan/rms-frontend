@@ -1,4 +1,4 @@
-.fixedHeaderContainer {
+.LoginLayout {
   box-sizing: border-box;
   background: #3f51b5;
   color: #fff;
@@ -9,11 +9,11 @@
   top: 0;
 }
 
-.fixedHeaderContainer span {
+.LoginLayout span {
   line-height: 2.5;
   font-weight: 500;
 }
 
-.fixedHeaderContainer img {
+.LoginLayout img {
   height: 24px;
 }
