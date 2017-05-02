@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import { LoginLayout } from '../components/Layout';
-import Login from './Login';
+import { Layout } from '../components/Layout';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <LoginLayout>
-          <Login />
-        </LoginLayout>
-      </div>
+      <Layout>
+        {this.props.children}
+      </Layout>
     );
   }
 }

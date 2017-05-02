@@ -15,7 +15,7 @@ function LoginLayout({ children }) {
       </div>
       { children }
     </div>
-  )
+  );
 }
 
 LoginLayout.propTypes = {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { LoginLayout } from '../../components/Layout';
 import LoginForm from './LoginForm';
 
 class Login extends React.Component {
@@ -16,17 +17,17 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
+      <LoginLayout>
         <LoginForm onSubmit={this.handleSubmit} />
-      </div>
+      </LoginLayout>
     );
   }
 }
 
 const mapDispatchToProps = {
-}
+};
 
 const mapStateToProps = (state) => ({
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

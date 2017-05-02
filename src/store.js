@@ -1,11 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { routerMiddleware } from 'react-router-redux';
 import createReducer from './reducers';
 import * as actionCreators from './action/actionCreators';
 
-export default function configureStore(initialState = {}) {
+export default function configureStore(initialState = {}, history) {
   const middlewares = [
-    thunk
+    thunk,
+    routerMiddleware(history)
   ];
 
   const enhancers = [
