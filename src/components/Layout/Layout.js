@@ -61,7 +61,7 @@ class Layout extends React.Component {
           />
           {this.renderNavMenu()}
         </Drawer>
-        <div id="Layout" className="Layout">
+        <div id="Layout" className="container Layout">
           {children}
         </div>
       </div>

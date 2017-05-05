@@ -1,6 +1,35 @@
 import axios from 'axios';
 import * as constants from '../constants/index';
 
+const createNewEmployee = (employee) => {
+  return {
+    type: 'CREATE_NEW_EMPLOYEE',
+    employee
+  }
+}
+
+const deleteEmployee = (index) => {
+  return {
+    type: 'DELETE_EMPLOYEE',
+    index
+  }
+}
+
+const fetchEmployee = (employees) => {
+  return {
+    type: 'FETCH_EMPLOYEES',
+    employees
+  }
+};
+
+const updateEmployee = (employee, index) => {
+  return {
+    type: 'UPDATE_EMPLOYEE',
+    employee,
+    index,
+  }
+}
+
 const requestGetEmployee = () => {
   return (dispatch) => {
     return axios.get(constants.BASE_URL + '/api/employee/all')
@@ -55,35 +84,6 @@ const requestDeleteEmployee = (employee, index) => {
         console.log(error.response);
       });
   };
-}
-
-const createNewEmployee = (employee) => {
-  return {
-    type: 'CREATE_NEW_EMPLOYEE',
-    employee
-  }
-}
-
-const deleteEmployee = (index) => {
-  return {
-    type: 'DELETE_EMPLOYEE',
-    index
-  }
-}
-
-const fetchEmployee = (employees) => {
-  return {
-    type: 'FETCH_EMPLOYEES',
-    employees
-  }
-};
-
-const updateEmployee = (employee, index) => {
-  return {
-    type: 'UPDATE_EMPLOYEE',
-    employee,
-    index,
-  }
 }
 
 export default {

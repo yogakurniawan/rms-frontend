@@ -8,6 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import App from './containers/App';
 import Login from './containers/Login';
+import Main from './containers/Main';
 import configureStore from './store';
 import './index.css';
 import 'sanitize.css';
@@ -32,20 +33,11 @@ const initialState = {};
 const store = configureStore(initialState, browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
 
-// This is for example. To be deleted soon.
-class Test extends React.Component {
-  render() {
-    return (
-      <div><h1>Put the Container here</h1></div>
-    );
-  }
-}
-
 const component = (
   <Router history={history}>
     <Route path="/" component={Login} />
-    <Route path="main" component={App}>
-      <Route path="test" component={Test} />
+    <Route path="layout" component={App}>
+      <Route path="main" component={Main} />
     </Route>
   </Router>
 );
