@@ -9,6 +9,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import App from './containers/App';
 import Login from './containers/Login';
 import Main from './containers/Main';
+import Dialog from './containers/Dialog';
 import configureStore from './store';
 import './index.css';
 import 'sanitize.css';
@@ -37,7 +38,7 @@ const component = (
   <Router history={history}>
     <Route path="/" component={Login} />
     <Route path="layout" component={App}>
-      <Route path="main" component={Main} />
+      <Route path="add" component={Dialog} />
     </Route>
   </Router>
 );

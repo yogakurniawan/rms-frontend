@@ -30,6 +30,14 @@ const updateEmployee = (employee, index) => {
   }
 }
 
+const updateNewEmployeeProp = (prop, value) => {
+  return {
+    type: 'UPDATE_NEW_EMPLOYEE_PROP',
+    prop,
+    value
+  }
+}
+
 const requestGetEmployee = () => {
   return (dispatch) => {
     return axios.get(constants.BASE_URL + '/api/employee/all')
@@ -95,7 +103,6 @@ export default {
   createNewEmployee,
   deleteEmployee,
   fetchEmployee,
-  updateEmployee
+  updateEmployee,
+  updateNewEmployeeProp
 }
-
-
