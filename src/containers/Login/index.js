@@ -1,33 +1,82 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { push } from 'react-router-redux';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import { auth as authActions } from '../../actions'
 import { LoginLayout } from '../../components/Layout';
 import LoginForm from './LoginForm';
 
+const customContentStyle = {
+  width: '30%'
+};
+
 class Login extends React.Component {
-  static propTypes = {
-    login: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
+  state = {
+    open: false,
   };
 
-  handleSubmit = (evt, values) => {
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleSubmit = (evt) => {
+    const { login, loginDetails, pushState } = this.props;
+    const { Username, Password } = loginDetails;
     evt.preventDefault();
-    console.log(values);
+    login(Username, Password).then(() => {
+      pushState('/main');
+    }).catch(() => {
+      this.handleOpen();
+    });
   }
 
   render() {
+    const actions = [
+      <FlatButton
+        label="OK"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />
+    ];
+    
     return (
       <LoginLayout>
+        <Dialog
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          contentStyle={customContentStyle}
+          onRequestClose={this.handleClose}
+        >
+          Wrong username or password
+        </Dialog>
         <LoginForm onSubmit={this.handleSubmit} />
       </LoginLayout>
     );
   }
 }
 
-const mapDispatchToProps = {
+Login.propTypes = {
+  login: PropTypes.func,
+  loginDetails: PropTypes.object,
+  loginError: PropTypes.object,
+  pushState: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({
+const mapDispatchToProps = {
+  login: authActions.login,
+  pushState: push
+};
+
+const mapStateToProps = ({ form, auth }) => ({
+  loginDetails: form.LoginForm && form.LoginForm.values,
+  loginError: auth.loginError
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

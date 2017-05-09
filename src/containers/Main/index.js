@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { auth } from '../../actions'
+import { Layout } from '../../components/Layout';
 import EmployeeList from '../../components/EmployeeList';
 
 class Main extends React.Component {
@@ -9,13 +11,21 @@ class Main extends React.Component {
     console.log(values);
   }
 
+  handleLogout = () => {
+    const { logout } = this.props;
+    logout();
+  }
+
   render() {
     const { employeeList } = this.props;
     const employeeListProps = {
       list: employeeList
-    }
+    };
+    const layoutProps = {
+      logout: this.handleLogout
+    };
     return (
-      <div>
+      <Layout {...layoutProps}>
         <div className="row">
           <div className="col-xs-5">
             <EmployeeList {...employeeListProps} />
@@ -23,16 +33,18 @@ class Main extends React.Component {
           <div className="col-xs-7">
           </div>
         </div>
-      </div>
+      </Layout>
     );
   }
 }
 
 Main.propTypes = {
-  employeeList: PropTypes.array
+  employeeList: PropTypes.array,
+  logout: PropTypes.func
 };
 
 const mapDispatchToProps = {
+  logout: auth.logout
 };
 
 const mapStateToProps = (state) => ({

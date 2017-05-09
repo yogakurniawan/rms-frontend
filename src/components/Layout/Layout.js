@@ -10,17 +10,6 @@ import {
 } from 'material-ui';
 import { white, indigo500 } from 'material-ui/styles/colors';
 
-const rightIcons = (
-  <div>
-    <IconButton>
-      <FontIcon color={white} className='material-icons'>settings</FontIcon>
-    </IconButton>
-    <IconButton>
-      <FontIcon color={white} className='material-icons'>power_settings_new</FontIcon>
-    </IconButton>
-  </div>
-);
-
 const titleIcon = (
   <FontIcon color={white} className='material-icons'>person_outline</FontIcon>
 );
@@ -35,10 +24,25 @@ class Layout extends React.Component {
 
   handleToggleLeftNav = () => this.setState({ lnOpen: !this.state.lnOpen })
 
+  renderRightIcons() {
+    const { logout } = this.props;
+    return (
+      <div>
+        <IconButton>
+          <FontIcon color={white} className='material-icons'>settings</FontIcon>
+        </IconButton>
+        <IconButton onClick={logout}>
+          <FontIcon color={white} className='material-icons'>power_settings_new</FontIcon>
+        </IconButton>
+      </div>
+    );
+  }
+
   renderNavMenu() {
+    const { logout } = this.props;
     return [
       <MenuItem key="settings" onClick={() => { }} leftIcon={<FontIcon color={indigo500} className='material-icons'>settings</FontIcon>}>Settings</MenuItem>,
-      <MenuItem key="logout" onClick={() => { }} leftIcon={<FontIcon color={indigo500} className='material-icons'>power_settings_new</FontIcon>}>Logout</MenuItem>
+      <MenuItem key="logout" onClick={logout} leftIcon={<FontIcon color={indigo500} className='material-icons'>power_settings_new</FontIcon>}>Logout</MenuItem>
     ];
   }
 
@@ -51,7 +55,7 @@ class Layout extends React.Component {
           title={<Avatar icon={titleIcon} />}
           zDepth={0}
           onLeftIconButtonTouchTap={this.handleToggleLeftNav}
-          iconElementRight={rightIcons} />
+          iconElementRight={this.renderRightIcons()} />
         <Drawer docked={false} width={300} open={lnOpen}>
           <AppBar
             title="Menu"
@@ -70,7 +74,8 @@ class Layout extends React.Component {
 }
 
 Layout.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  logout: PropTypes.func
 };
 
 export default Layout;

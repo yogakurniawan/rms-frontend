@@ -20,7 +20,7 @@ class LoginForm extends React.Component {
   };
 
   render() {
-    const { onSubmit } = this.props;
+    const { onSubmit, pristine } = this.props;
     return (
       <div className="LoginForm">
         <div className="LoginForm__Container">
@@ -34,7 +34,7 @@ class LoginForm extends React.Component {
                 <Field id="rms-password" fullWidth={true} name="Password" type="password" component={renderTextField} label="Password" />
               </div>
               <div className="LoginForm__RmsLoginButtonWrapper">
-                <RaisedButton type="submit" className="rmsLoginButton" label="Login" secondary={true} />
+                <RaisedButton disabled={pristine} type="submit" className="rmsLoginButton" label="Login" secondary={true} />
               </div>
             </form>
           </div>

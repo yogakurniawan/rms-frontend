@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
 import createReducer from './reducers';
-import { employee } from './actions';
 
 export default function configureStore(initialState = {}, history) {
   const middlewares = [
@@ -25,9 +24,6 @@ export default function configureStore(initialState = {}, history) {
     initialState,
     composeEnhancers(...enhancers)
   );
-
-  // initial data
-  store.dispatch(employee.requestGetEmployee());
 
   return store;
 }

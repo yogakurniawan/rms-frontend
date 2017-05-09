@@ -1,69 +1,91 @@
-export function isLoaded(globalState) {
-  return globalState.auth && globalState.auth.loaded;
+import axios from 'axios';
+import Cookie from 'js-cookie';
+import qs from 'qs';
+import {
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  BASE_URL,
+  LOGOUT,
+  LOGOUT_SUCCESS
+} from '../constants';
+
+const LOGIN_URL = `${BASE_URL}/oauth/token`;
+
+function doLogin() {
+  return {
+    type: LOGIN
+  }
 }
 
-export function load() {
+function loginSuccess(loginInfo) {
   return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/users/loadAuth')
-  };
+    type: LOGIN_SUCCESS,
+    loginInfo
+  }
 }
 
-export function login(username, password) {
+function loginFail(error) {
   return {
-    types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-    promise: (client) => client.post('/users/login', {
-      data: {
-        username: username,
-        password: password
+    type: LOGIN_FAIL,
+    error
+  }
+}
+
+const login = (username, password) => {
+  const config = {
+    method: 'POST',
+    url: LOGIN_URL,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic Y2xpZW50OnNlY3JldA=='
+    },
+    data: qs.stringify({
+      grant_type: 'password',
+      username,
+      password
+    })
+  }
+  return (dispatch) => {
+    dispatch(doLogin());
+    return axios(config).then(({ data }) => {
+      if (data.error) {
+        dispatch(loginFail(data));
+        return Promise.reject(data);
+      } else {
+        dispatch(loginSuccess(data));
+        Cookie.set('token', data.access_token);
+        return Promise.resolve(data);
       }
-    })
+    }).catch(({ response }) => {
+      dispatch(loginFail(response.data));
+      return Promise.reject(response.data);
+    });
   };
+};
+
+function doLogout() {
+  return {
+    type: LOGOUT
+  }
 }
 
-export function logout() {
+function logoutSuccess() {
   return {
-    types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL],
-    promise: (client) => {
-      return commonAsyncUtil(client.post('users/logout', {
-        params: {
-          access_token: Cookie.get('token')
-        }
-      }).then(new Promise((resolve) => {
-        Cookie.remove('token');
-        return resolve(null);
-      })));
-    }
-  };
+    type: LOGOUT_SUCCESS
+  }
 }
 
-export function register(data) {
-  return {
-    types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
-    promise: (client) => client.post('/users', {
-      data: data
-    })
+const logout = () => {
+  return (dispatch) => {
+    dispatch(doLogout());
+    Cookie.remove('token');
+    dispatch(logoutSuccess());
+    window.location.replace('/');
   };
-}
+};
 
-export function validateUsername(username) {
-  return {
-    types: [VALIDATE_USERNAME, VALIDATE_USERNAME_SUCCESS, VALIDATE_USERNAME_FAIL],
-    promise: (client) => client.post('/users/validateusername', {
-      params: {
-        username
-      }
-    })
-  };
-}
-
-export function validateEmail(email) {
-  return {
-    types: [VALIDATE_EMAIL, VALIDATE_EMAIL_SUCCESS, VALIDATE_EMAIL_FAIL],
-    promise: (client) => client.post('/users/validateemail', {
-      params: {
-        email
-      }
-    })
-  };
+export default {
+  login,
+  logout
 }
