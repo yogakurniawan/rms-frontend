@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { push } from 'react-router-redux';
@@ -29,7 +30,8 @@ class Login extends React.Component {
     const { login, loginDetails, pushState, getLoggedInUserInfo } = this.props;
     const { Username, Password } = loginDetails;
     evt.preventDefault();
-    login(Username, Password).then(() => {
+    login(Username, Password).then((response) => {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.access_token}`;
       getLoggedInUserInfo();
       pushState('/main');
     }).catch(() => {

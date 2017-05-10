@@ -1,108 +1,126 @@
 import axios from 'axios';
-import * as constants from '../constants/index';
+import {
+  // ADD_EMPLOYEE,
+  // ADD_EMPLOYEE_SUCCESS,
+  // ADD_EMPLOYEE_ERROR,
+  // DELETE_EMPLOYEE,
+  // DELETE_EMPLOYEE_SUCCESS,
+  // DELETE_EMPLOYEE_ERROR,
+  // UPDATE_EMPLOYEE,
+  // UPDATE_EMPLOYEE_SUCCESS,
+  // UPDATE_EMPLOYEE_ERROR,
+  LOAD_EMPLOYEES,
+  LOAD_EMPLOYEES_SUCCESS,
+  LOAD_EMPLOYEES_ERROR,
+  BASE_URL
+} from '../constants';
 
-const createNewEmployee = (employee) => {
-  return {
-    type: 'CREATE_NEW_EMPLOYEE',
-    employee
-  }
-}
+const EMPLOYEE_API_URL = `${BASE_URL}/api/employee`;
+const ALL_EMPLOYEE_URL = `${EMPLOYEE_API_URL}/all`;
+// const EMPLOYEE_BY_NAME = `${EMPLOYEE_API_URL}/search/name`;
 
-const deleteEmployee = (index) => {
-  return {
-    type: 'DELETE_EMPLOYEE',
-    index
-  }
-}
+// const addEmployee = (employee) => {
+//   return {
+//     type: ADD_EMPLOYEE,
+//     employee
+//   }
+// }
 
-const fetchEmployee = (employees) => {
+// const deleteEmployee = (index) => {
+//   return {
+//     type: DELETE_EMPLOYEE,
+//     index
+//   }
+// }
+
+// const updateEmployee = (employee, index) => {
+//   return {
+//     type: UPDATE_EMPLOYEE,
+//     employee,
+//     index,
+//   }
+// }
+
+const loadEmployee = () => {
   return {
-    type: 'FETCH_EMPLOYEES',
-    employees
+    type: LOAD_EMPLOYEES
   }
 };
 
-const updateEmployee = (employee, index) => {
+const loadEmployeeSuccess = (payload) => {
   return {
-    type: 'UPDATE_EMPLOYEE',
-    employee,
-    index,
+    type: LOAD_EMPLOYEES_SUCCESS,
+    payload
   }
-}
+};
 
-const updateNewEmployeeProp = (prop, value) => {
+const loadEmployeeError = (error) => {
   return {
-    type: 'UPDATE_NEW_EMPLOYEE_PROP',
-    prop,
-    value
+    type: LOAD_EMPLOYEES_ERROR,
+    error
   }
-}
+};
 
-const requestGetEmployee = () => {
+const requestGetAllEmployees = () => {
   return (dispatch) => {
-    return axios.get(constants.BASE_URL + '/api/employee/all')
-      .then(response => {
-        dispatch(fetchEmployee(response.data));
-        console.log(response.data)
-      }).catch(error => {
-        console.log(error.response);
+    dispatch(loadEmployee());
+    return axios.get(ALL_EMPLOYEE_URL)
+      .then((response) => {
+        dispatch(loadEmployeeSuccess(response.data));
+      }).catch((error) => {
+        dispatch(loadEmployeeError(error.response));
       });
   };
 };
 
-const requestGetEmployeeByName = (name) => {
-  return (dispatch) => {
-    return axios.get(constants.BASE_URL + '/api/employee/search/name/' + name)
-      .then(response => {
-        dispatch(fetchEmployee(response.data));
-      }).catch(error => {
-        console.log(error.response);
-      });
-  };
-};
+// const requestGetEmployeeByName = (name) => {
+//   return (dispatch) => {
+//     return axios.get(`${EMPLOYEE_BY_NAME}/name`)
+//       .then(response => {
+//         dispatch(fetchEmployee(response.data));
+//       }).catch(error => {
+//         console.log(error.response);
+//       });
+//   };
+// };
 
-const requestPostEmployee = (employee) => {
-  return (dispatch) => {
-    return axios.post(constants.BASE_URL + '/api/employee/', employee)
-      .then(response => {
-        dispatch(createNewEmployee(response.data));
-      }).catch(error => {
-        console.log(error.response);
-      });
-  };
-};
+// const requestCreateEmployee = (employee) => {
+//   return (dispatch) => {
+//     return axios.post(`${EMPLOYEE_API_URL}`, employee)
+//       .then(response => {
+//         dispatch(addEmployee(response.data));
+//       }).catch(error => {
+//         console.log(error.response);
+//       });
+//   };
+// };
 
-const requestPutEmployee = (employee, index) => {
-  return (dispatch) => {
-    return axios.put(constants.BASE_URL + '/api/employee/' + employee.id, employee)
-      .then(response => {
-        dispatch(updateEmployee(response.data, index));
-      }).catch(error => {
-        console.log(error.response);
-      });
-  };
-}
+// const requestUpdateEmployee = (employee, index) => {
+//   return (dispatch) => {
+//     return axios.put(`${EMPLOYEE_API_URL}/${employee.id}`, employee)
+//       .then(response => {
+//         dispatch(updateEmployee(response.data, index));
+//       }).catch(error => {
+//         console.log(error.response);
+//       });
+//   };
+// }
 
-const requestDeleteEmployee = (employee, index) => {
-  return (dispatch) => {
-    return axios.delete(constants.BASE_URL + '/api/employee/' + employee.id)
-      .then(response => {
-        dispatch(deleteEmployee(index));
-      }).catch(error => {
-        console.log(error.response);
-      });
-  };
-}
+// const requestDeleteEmployee = (employee, index) => {
+//   return (dispatch) => {
+//     return axios.delete(`${EMPLOYEE_API_URL}/${employee.id}`)
+//       .then(response => {
+//         dispatch(deleteEmployee(index));
+//       }).catch(error => {
+//         console.log(error.response);
+//       });
+//   };
+// }
 
 export default {
-  requestGetEmployee,
-  requestGetEmployeeByName,
-  requestPostEmployee,
-  requestPutEmployee,
-  requestDeleteEmployee,
-  createNewEmployee,
-  deleteEmployee,
-  fetchEmployee,
-  updateEmployee,
-  updateNewEmployeeProp
+  requestGetAllEmployees,
+  // requestGetEmployeeByName,
+  // requestCreateEmployee,
+  // requestUpdateEmployee,
+  // requestDeleteEmployee
 }

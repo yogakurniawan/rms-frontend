@@ -5,13 +5,20 @@ import Cookie from 'js-cookie';
 import PropTypes from 'prop-types';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import { auth } from '../../actions'
+import {
+  auth as authActions,
+  employee as employeeActions
+} from '../../actions'
 import { Layout } from '../../components/Layout';
 import Tabs from '../../components/Tabs';
 import EmployeeList from '../../components/EmployeeList';
 import './Main.css';
 
 class Main extends React.Component {
+  componentDidMount() {
+    this.props.getAllEmployees();
+  }
+
   handleSubmit = (evt, values) => {
     evt.preventDefault();
     console.log(values);
@@ -51,11 +58,13 @@ class Main extends React.Component {
 
 Main.propTypes = {
   employeeList: PropTypes.array,
-  logout: PropTypes.func
+  logout: PropTypes.func,
+  getAllEmployees: PropTypes.func
 };
 
 const mapDispatchToProps = {
-  logout: auth.logout
+  logout: authActions.logout,
+  getAllEmployees: employeeActions.requestGetAllEmployees
 };
 
 const mapStateToProps = (state) => ({

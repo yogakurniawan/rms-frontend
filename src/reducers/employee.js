@@ -1,61 +1,36 @@
-import { FETCH_EMPLOYEES } from '../constants'
+import {
+  LOAD_EMPLOYEES,
+  LOAD_EMPLOYEES_SUCCESS,
+  LOAD_EMPLOYEES_ERROR
+} from '../constants'
 
 const initialState = {
-  employeeList: [
-    {
-      id: 1,
-      fullName: "Albertus Mahaputra",
-      jobFamily: "SE",
-      grade: "PG",
-      currentProject: "CDC Asterx",
-      baseOffice: "Bali",
-      phoneNumber: "+6281234567890"
-    },
-    {
-      id: 2,
-      fullName: "Karena Cindy Alika",
-      jobFamily: "SE",
-      grade: "AP",
-      currentProject: "SWD Pink",
-      baseOffice: "Yogyakarta",
-      phoneNumber: "+6281234567890"
-    }
-  ],
-  newEmployee: {
-    Id: null,
-    firstName: '',
-    lastName: '',
-    gender: '',
-    dob: null,
-    nationality: '',
-    maritalStatus: '',
-    phone: '',
-    subDivision: '',
-    status: '',
-    hireDate: null,
-    grade: '',
-    division: '',
-    email: '',
-    office: '',
-    active: true,
-    historyList: [{id: 0, startDate: null, endDate: null, name: '', role: '', description: ''}]
-  }
+  loadingEmployee: false,
+  loadEmployeeError: null,
+  employeeList: []
 };
 
 const reducer = (state = initialState, action) => {
-  console.log(action.type)
+  const { payload, error } = action;
   switch (action.type) {
-    case FETCH_EMPLOYEES:
+    case LOAD_EMPLOYEES:
       return {
         ...state,
-        employeeList: action.employees
+        loadingEmployee: true
       };
-    case 'UPDATE_NEW_EMPLOYEE_PROP':
+    case LOAD_EMPLOYEES_SUCCESS:
       return {
         ...state,
-        newEmployee: Object.assign({}, state.newEmployee, {
-          [action.prop]: action.value
-        })
+        loadingEmployee: false,
+        loadEmployeeError: null,
+        employeeList: payload
+      };
+    case LOAD_EMPLOYEES_ERROR:
+      return {
+        ...state,
+        loadingEmployee: false,
+        employeeList: null,
+        loadEmployeeError: error
       };
     default:
       return state;

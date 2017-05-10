@@ -22,11 +22,11 @@ class ListComponent extends React.Component {
             <div key={employee.id}>
               <ListItem
                 leftAvatar={<Avatar src="http://www.material-ui.com/images/ok-128.jpg" />}
-                primaryText={<span style={{ color: darkBlack }}>{employee.fullName}</span>}
+                primaryText={<span style={{ color: darkBlack }}>{`${employee.firstName} ${employee.lastName}`}</span>}
                 secondaryText={
                   <p>
-                    <span>{`${employee.jobFamily} - ${employee.grade}, ${employee.currentProject}`}</span><br />
-                    <span>{`${employee.baseOffice}, ${employee.phoneNumber}`}</span>
+                    <span>{`SE - ${employee.grade}, ${employee.subDivision}`}</span><br />
+                    <span>{`${employee.office}, ${employee.phone}`}</span>
                   </p>
                 }
                 secondaryTextLines={2}

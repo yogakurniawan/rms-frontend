@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -15,6 +16,8 @@ import 'flexboxgrid/css/flexboxgrid.css';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
+
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const muiTheme = getMuiTheme({
   userAgent: 'all',

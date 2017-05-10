@@ -59,10 +59,7 @@ function loginFail(error) {
 const getLoggedInUserInfo = () => {
   const config = {
     method: 'GET',
-    url: GET_USER_LOGIN_URL,
-    headers: {
-      'Authorization': `Bearer ${Cookie.get('token')}`
-    }
+    url: GET_USER_LOGIN_URL
   }
   return (dispatch) => {
     dispatch(loadUser());
