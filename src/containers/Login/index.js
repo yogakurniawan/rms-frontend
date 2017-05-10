@@ -26,10 +26,11 @@ class Login extends React.Component {
   };
 
   handleSubmit = (evt) => {
-    const { login, loginDetails, pushState } = this.props;
+    const { login, loginDetails, pushState, getLoggedInUserInfo } = this.props;
     const { Username, Password } = loginDetails;
     evt.preventDefault();
     login(Username, Password).then(() => {
+      getLoggedInUserInfo();
       pushState('/main');
     }).catch(() => {
       this.handleOpen();
@@ -65,12 +66,14 @@ class Login extends React.Component {
 Login.propTypes = {
   login: PropTypes.func,
   loginDetails: PropTypes.object,
+  getLoggedInUserInfo: PropTypes.func,
   loginError: PropTypes.object,
   pushState: PropTypes.func,
 };
 
 const mapDispatchToProps = {
   login: authActions.login,
+  getLoggedInUserInfo: authActions.getLoggedInUserInfo,
   pushState: push
 };
 

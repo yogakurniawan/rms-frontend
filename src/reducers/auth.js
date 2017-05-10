@@ -2,12 +2,17 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOAD_USER,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAIL,
   LOGOUT,
   LOGOUT_SUCCESS,
   LOGOUT_FAIL
 } from '../constants';
 
 const initialState = {
+  loadingUser: false,
+  loadUserError: null,
   loggingIn: false,
   loginInfo: null,
   userInfo: null,
@@ -17,7 +22,7 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action = {}) {
-  const { loginInfo, error } = action;
+  const { payload, error } = action;
   switch (action.type) {
     case LOGIN:
       return {
@@ -28,16 +33,32 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loggingIn: false,
-        // userInfo,
-        loginInfo
+        loginInfo: payload
       };
     case LOGIN_FAIL:
       return {
         ...state,
         loggingIn: false,
         loginInfo: null,
-        // userInfo: null,
         loginError: error
+      };
+    case LOAD_USER:
+      return {
+        ...state,
+        loadingUser: true
+      };
+    case LOAD_USER_SUCCESS:
+      return {
+        ...state,
+        loadingUser: false,
+        userInfo: payload,
+      };
+    case LOAD_USER_FAIL:
+      return {
+        ...state,
+        loadingUser: false,
+        userInfo: null,
+        loadUserError: error
       };
     case LOGOUT:
       return {
@@ -48,7 +69,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loggingOut: false,
-        // userInfo: null,
+        userInfo: null,
         loginInfo: null
       };
     case LOGOUT_FAIL:

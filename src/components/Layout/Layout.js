@@ -46,13 +46,25 @@ class Layout extends React.Component {
     ];
   }
 
+  renderTitle() {
+    const { userInfo } = this.props;
+    return (
+      <div>
+        <Avatar icon={titleIcon} />
+        <span style={{ marginLeft: '10px' }}>
+          {`${userInfo.firstName} ${userInfo.lastName} (SE - ${userInfo.grade})`}
+        </span>
+      </div>
+    );
+  }
+
   render() {
     const { lnOpen } = this.state;
     const { children } = this.props;
     return (
       <div>
         <AppBar
-          title={<Avatar icon={titleIcon} />}
+          title={this.renderTitle()}
           zDepth={0}
           onLeftIconButtonTouchTap={this.handleToggleLeftNav}
           iconElementRight={this.renderRightIcons()} />
@@ -65,7 +77,7 @@ class Layout extends React.Component {
           />
           {this.renderNavMenu()}
         </Drawer>
-        <div id="Layout" className="container Layout">
+        <div id="Layout" className="container-fluid Layout" style={{ paddingRight: 0, paddingLeft: 0 }}>
           {children}
         </div>
       </div>
@@ -75,7 +87,8 @@ class Layout extends React.Component {
 
 Layout.propTypes = {
   children: PropTypes.node,
-  logout: PropTypes.func
+  logout: PropTypes.func,
+  userInfo: PropTypes.object
 };
 
 export default Layout;

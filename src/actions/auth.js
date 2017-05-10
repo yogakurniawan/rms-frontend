@@ -5,12 +5,36 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOAD_USER,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAIL,
   BASE_URL,
   LOGOUT,
   LOGOUT_SUCCESS
 } from '../constants';
 
 const LOGIN_URL = `${BASE_URL}/oauth/token`;
+const GET_USER_LOGIN_URL = `${BASE_URL}/api/employee/get-login-user`;
+
+function loadUser() {
+  return {
+    type: LOAD_USER
+  }
+}
+
+function loadUserSuccess(payload) {
+  return {
+    type: LOAD_USER_SUCCESS,
+    payload
+  }
+}
+
+function loadUserFail(error) {
+  return {
+    type: LOAD_USER_FAIL,
+    error
+  }
+}
 
 function doLogin() {
   return {
@@ -18,10 +42,10 @@ function doLogin() {
   }
 }
 
-function loginSuccess(loginInfo) {
+function loginSuccess(payload) {
   return {
     type: LOGIN_SUCCESS,
-    loginInfo
+    payload
   }
 }
 
@@ -30,6 +54,29 @@ function loginFail(error) {
     type: LOGIN_FAIL,
     error
   }
+}
+
+const getLoggedInUserInfo = () => {
+  const config = {
+    method: 'GET',
+    url: GET_USER_LOGIN_URL,
+    headers: {
+      'Authorization': `Bearer ${Cookie.get('token')}`
+    }
+  }
+  return (dispatch) => {
+    dispatch(loadUser());
+    return axios(config).then(({ data }) => {
+      if (data.error) {
+        dispatch(loadUserFail(data));
+      } else {
+        dispatch(loadUserSuccess(data));
+        Cookie.set('userInfo', qs.stringify(data));
+      }
+    }).catch(({ response }) => {
+      dispatch(loadUserFail(response.data));
+    });
+  };
 }
 
 const login = (username, password) => {
@@ -87,5 +134,6 @@ const logout = () => {
 
 export default {
   login,
+  getLoggedInUserInfo,
   logout
 }
