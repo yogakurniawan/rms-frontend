@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookie from 'js-cookie';
 import {
   // ADD_EMPLOYEE,
   // ADD_EMPLOYEE_SUCCESS,
@@ -64,8 +65,11 @@ const loadEmployeeError = (error) => {
 const requestGetAllEmployees = () => {
   return (dispatch) => {
     dispatch(loadEmployee());
-    return axios.get(ALL_EMPLOYEE_URL)
-      .then((response) => {
+    return axios.get(ALL_EMPLOYEE_URL, {
+      headers: {
+        'Authorization': `Bearer ${Cookie.get('token')}`
+      }
+    }).then((response) => {
         dispatch(loadEmployeeSuccess(response.data));
       }).catch((error) => {
         dispatch(loadEmployeeError(error.response));

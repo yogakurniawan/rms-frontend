@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
 import qs from 'qs';
+import { saveItem, removeItem } from '../utils/localStorage';
 import {
   LOGIN,
   LOGIN_SUCCESS,
@@ -59,7 +60,10 @@ function loginFail(error) {
 const getLoggedInUserInfo = () => {
   const config = {
     method: 'GET',
-    url: GET_USER_LOGIN_URL
+    url: GET_USER_LOGIN_URL,
+    headers: {
+      'Authorization': `Bearer ${Cookie.get('token')}`
+    }
   }
   return (dispatch) => {
     dispatch(loadUser());
@@ -68,7 +72,7 @@ const getLoggedInUserInfo = () => {
         dispatch(loadUserFail(data));
       } else {
         dispatch(loadUserSuccess(data));
-        Cookie.set('userInfo', qs.stringify(data));
+        saveItem('userInfo', data);
       }
     }).catch(({ response }) => {
       dispatch(loadUserFail(response.data));
@@ -124,6 +128,7 @@ const logout = () => {
   return (dispatch) => {
     dispatch(doLogout());
     Cookie.remove('token');
+    removeItem('userInfo');
     dispatch(logoutSuccess());
     window.location.replace('/');
   };

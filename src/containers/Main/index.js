@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import qs from 'qs';
-import Cookie from 'js-cookie';
 import PropTypes from 'prop-types';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -9,6 +7,7 @@ import {
   auth as authActions,
   employee as employeeActions
 } from '../../actions'
+import { loadItem } from '../../utils/localStorage';
 import { Layout } from '../../components/Layout';
 import Tabs from '../../components/Tabs';
 import EmployeeList from '../../components/EmployeeList';
@@ -31,12 +30,13 @@ class Main extends React.Component {
 
   render() {
     const { employeeList } = this.props;
+    const userInfo = loadItem('userInfo')
     const employeeListProps = {
       list: employeeList
     };
     const layoutProps = {
       logout: this.handleLogout,
-      userInfo: qs.parse(Cookie.get('userInfo'))
+      userInfo
     };
     return (
       <Layout className="Main" {...layoutProps}>
