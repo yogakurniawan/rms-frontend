@@ -2,17 +2,8 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form'
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField'
+import { renderTextField } from '../../components/Form';
 import './LoginForm.css';
-
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-  <TextField hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-);
 
 class LoginForm extends React.Component {
   static propTypes = {
@@ -30,8 +21,8 @@ class LoginForm extends React.Component {
           <div className="LoginForm__ContentBox">
             <form onSubmit={onSubmit}>
               <div className="LoginForm__RmsInputField">
-                <Field  id="rms-username" fullWidth={true} name="Username" component={renderTextField} label="Username" />
-                <Field id="rms-password" fullWidth={true} name="Password" type="password" component={renderTextField} label="Password" />
+                <Field  id="rms-username" fullWidth={true} name="username" component={renderTextField} label="Username" />
+                <Field id="rms-password" fullWidth={true} name="password" type="password" component={renderTextField} label="Password" />
               </div>
               <div className="LoginForm__RmsLoginButtonWrapper">
                 <RaisedButton disabled={pristine} type="submit" className="rmsLoginButton" label="Login" secondary={true} />

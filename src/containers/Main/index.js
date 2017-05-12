@@ -11,6 +11,7 @@ import { loadItem } from '../../utils/localStorage';
 import { Layout } from '../../components/Layout';
 import Tabs from '../../components/Tabs';
 import EmployeeList from '../../components/EmployeeList';
+import NewEmployee from '../../containers/NewEmployee';
 import './Main.css';
 
 class Main extends React.Component {
@@ -29,7 +30,7 @@ class Main extends React.Component {
   }
 
   render() {
-    const { employeeList } = this.props;
+    const { employeeList, openDialog } = this.props;
     const userInfo = loadItem('userInfo')
     const employeeListProps = {
       list: employeeList
@@ -43,7 +44,7 @@ class Main extends React.Component {
         <div className="row">
           <div className="col-xs-12 col-sm-6 col-md-5 col-lg-4" style={{ paddingRight: 0 }}>
             <EmployeeList {...employeeListProps} />
-            <FloatingActionButton className="Main__AddEmployeeIcon" secondary={true}>
+            <FloatingActionButton onClick={openDialog} className="Main__AddEmployeeIcon" secondary={true}>
               <ContentAdd />
             </FloatingActionButton>
           </div>
@@ -51,6 +52,7 @@ class Main extends React.Component {
             <Tabs />
           </div>
         </div>
+        <NewEmployee />
       </Layout>
     );
   }
@@ -59,11 +61,13 @@ class Main extends React.Component {
 Main.propTypes = {
   employeeList: PropTypes.array,
   logout: PropTypes.func,
+  openDialog: PropTypes.func,
   getAllEmployees: PropTypes.func
 };
 
 const mapDispatchToProps = {
   logout: authActions.logout,
+  openDialog: employeeActions.openNewEmployeeDialog,
   getAllEmployees: employeeActions.requestGetAllEmployees
 };
 

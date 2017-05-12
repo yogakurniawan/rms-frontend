@@ -1,61 +1,54 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Step, Stepper, StepLabel} from 'material-ui/Stepper';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import { Step, Stepper, StepLabel } from 'material-ui/Stepper';
 
-import EmployeeDetails from '../EmployeeDetails';
-
-class DialogForm extends React.Component{
+class DialogForm extends React.Component {
 
   constructor(props, context) {
-  super(props, context);
-  this.state = {
-    stepIndex: 0
+    super(props, context);
+    this.state = {
+      stepIndex: 0
+    }
   }
-}
 
-handlePrev() {
-  const {stepIndex} = this.state;
-  if (stepIndex > 0) {
-    this.setState({stepIndex: stepIndex - 1});
+  handlePrev() {
+    const { stepIndex } = this.state;
+    if (stepIndex > 0) {
+      this.setState({ stepIndex: stepIndex - 1 });
+    }
   }
-}
 
-handleNext() {
-  const {stepIndex} = this.state;
-  this.setState({
-    stepIndex: stepIndex + 1,
-  });
-  if (stepIndex===5){
+  handleNext() {
+    const { stepIndex } = this.state;
+    this.setState({
+      stepIndex: stepIndex + 1,
+    });
+    if (stepIndex === 5) {
+      // need to add actions create new employee
+    }
+  };
 
-    // need to add actions create new employee
-
+  getStepContent(stepIndex) {
+    const { components } = this.props;
+    const { EmployeeDetails } = components;
+    switch (stepIndex) {
+      case 0:
+        return <EmployeeDetails />;
+      default:
+        return (
+          <div>
+            <h2>Content</h2>
+            <div></div>
+          </div>
+        );
+    }
   }
-};
 
-getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return (
-        <EmployeeDetails {...this.props}
-            disabled={false}
-          />
-      );
-    default:
-      return (
-        <div>
-          <h2>Content</h2>
-          <div></div>
-        </div>
-      );
-  }
-}
-
-  render(){
-
-    const {stepIndex} = this.state;
+  render() {
+    const { stepIndex } = this.state;
+    const { open, handleClose } = this.props;
     const title = [
       <Stepper key="Stepper" linear={true} activeStep={stepIndex}>
         <Step>
@@ -93,18 +86,27 @@ getStepContent(stepIndex) {
       />
     ];
 
-    return(
+    return (
       <div>
         <Dialog
-          open={true}
+          open={open}
           title={title}
+          modal={false}
           actions={actionsBtn}
-          autoScrollBodyContent={true} >
+          autoScrollBodyContent={true}
+          onRequestClose={handleClose}
+        >
           {this.getStepContent(stepIndex)}
         </Dialog>
       </div>
     )
   }
+}
+
+DialogForm.propTypes = {
+  components: PropTypes.object.isRequired,
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired
 }
 
 export default DialogForm;

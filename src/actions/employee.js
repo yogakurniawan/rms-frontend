@@ -1,15 +1,18 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
+import { invalidTokenError } from '../utils/async'
 import {
-  // ADD_EMPLOYEE,
-  // ADD_EMPLOYEE_SUCCESS,
-  // ADD_EMPLOYEE_ERROR,
+  ADD_EMPLOYEE,
+  ADD_EMPLOYEE_SUCCESS,
+  ADD_EMPLOYEE_ERROR,
   // DELETE_EMPLOYEE,
   // DELETE_EMPLOYEE_SUCCESS,
   // DELETE_EMPLOYEE_ERROR,
   // UPDATE_EMPLOYEE,
   // UPDATE_EMPLOYEE_SUCCESS,
   // UPDATE_EMPLOYEE_ERROR,
+  OPEN_NEW_EMPLOYEE_DIALOG,
+  CLOSE_NEW_EMPLOYEE_DIALOG,
   LOAD_EMPLOYEES,
   LOAD_EMPLOYEES_SUCCESS,
   LOAD_EMPLOYEES_ERROR,
@@ -20,12 +23,25 @@ const EMPLOYEE_API_URL = `${BASE_URL}/api/employee`;
 const ALL_EMPLOYEE_URL = `${EMPLOYEE_API_URL}/all`;
 // const EMPLOYEE_BY_NAME = `${EMPLOYEE_API_URL}/search/name`;
 
-// const addEmployee = (employee) => {
-//   return {
-//     type: ADD_EMPLOYEE,
-//     employee
-//   }
-// }
+const addEmployee = () => {
+  return {
+    type: ADD_EMPLOYEE
+  }
+}
+
+const addEmployeeSuccess = (payload) => {
+  return {
+    type: ADD_EMPLOYEE_SUCCESS,
+    payload
+  }
+};
+
+const addEmployeeError = (error) => {
+  return {
+    type: ADD_EMPLOYEE_ERROR,
+    error
+  }
+};
 
 // const deleteEmployee = (index) => {
 //   return {
@@ -41,6 +57,18 @@ const ALL_EMPLOYEE_URL = `${EMPLOYEE_API_URL}/all`;
 //     index,
 //   }
 // }
+
+const openNewEmployeeDialog = () => {
+  return {
+    type: OPEN_NEW_EMPLOYEE_DIALOG
+  }
+};
+
+const closeNewEmployeeDialog = () => {
+  return {
+    type: CLOSE_NEW_EMPLOYEE_DIALOG
+  }
+};
 
 const loadEmployee = () => {
   return {
@@ -70,10 +98,11 @@ const requestGetAllEmployees = () => {
         'Authorization': `Bearer ${Cookie.get('token')}`
       }
     }).then((response) => {
-        dispatch(loadEmployeeSuccess(response.data));
-      }).catch((error) => {
-        dispatch(loadEmployeeError(error.response));
-      });
+      dispatch(loadEmployeeSuccess(response.data));
+    }).catch((error) => {
+      dispatch(loadEmployeeError(error.response));
+      invalidTokenError(error.response);
+    });
   };
 };
 
@@ -88,16 +117,22 @@ const requestGetAllEmployees = () => {
 //   };
 // };
 
-// const requestCreateEmployee = (employee) => {
-//   return (dispatch) => {
-//     return axios.post(`${EMPLOYEE_API_URL}`, employee)
-//       .then(response => {
-//         dispatch(addEmployee(response.data));
-//       }).catch(error => {
-//         console.log(error.response);
-//       });
-//   };
-// };
+const requestCreateEmployee = (employee) => {
+  return (dispatch) => {
+    dispatch(addEmployee());
+    return axios.post(`${EMPLOYEE_API_URL}`, {
+      data: employee,
+      headers: {
+        'Authorization': `Bearer ${Cookie.get('token')}`
+      }
+    }).then((response) => {
+      dispatch(addEmployeeSuccess(response.data));
+    }).catch((error) => {
+      dispatch(addEmployeeError(error.response));
+      invalidTokenError(error.response);
+    });
+  };
+};
 
 // const requestUpdateEmployee = (employee, index) => {
 //   return (dispatch) => {
@@ -123,8 +158,10 @@ const requestGetAllEmployees = () => {
 
 export default {
   requestGetAllEmployees,
+  openNewEmployeeDialog,
+  closeNewEmployeeDialog,
   // requestGetEmployeeByName,
-  // requestCreateEmployee,
+  requestCreateEmployee
   // requestUpdateEmployee,
   // requestDeleteEmployee
 }
