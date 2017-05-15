@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm } from 'redux-form';
 import Avatar from 'material-ui/Avatar';
 import MenuItem from 'material-ui/MenuItem';
 import { DatePicker } from 'redux-form-material-ui'
@@ -17,7 +17,7 @@ class EmployeeDetails extends React.Component {
                 <Field id="rms-emp-details-firstname" fullWidth={true} name="firstName" component={renderTextField} label="First Name" />
               </div>
               <div className="col-xs-6">
-                <Field id="rms-emp-details-lastname" fullWidth={true} name="lastName" component={renderTextField} label="last Name" />
+                <Field id="rms-emp-details-lastname" fullWidth={true} name="lastName" component={renderTextField} label="Last Name" />
               </div>
             </div>
             <div className="row">
@@ -33,8 +33,8 @@ class EmployeeDetails extends React.Component {
                   label="Gender"
                   fullWidth={true}
                 >
-                  <MenuItem value="1" primaryText="Male" />
-                  <MenuItem value="2" primaryText="Female" />
+                  <MenuItem value="Male" primaryText="Male" />
+                  <MenuItem value="Female" primaryText="Female" />
                 </Field>
               </div>
               <div className="col-xs-6">
@@ -45,12 +45,12 @@ class EmployeeDetails extends React.Component {
                   label="Marital Status"
                   fullWidth={true}
                 >
-                  <MenuItem value="1" primaryText="Single" />
-                  <MenuItem value="2" primaryText="Married" />
-                  <MenuItem value="3" primaryText="Defacto" />
-                  <MenuItem value="4" primaryText="Separated" />
-                  <MenuItem value="5" primaryText="Divorced" />
-                  <MenuItem value="6" primaryText="Widowed" />
+                  <MenuItem value="Single" primaryText="Single" />
+                  <MenuItem value="Married" primaryText="Married" />
+                  <MenuItem value="Defacto" primaryText="Defacto" />
+                  <MenuItem value="Separated" primaryText="Separated" />
+                  <MenuItem value="Divorced" primaryText="Divorced" />
+                  <MenuItem value="Widowed" primaryText="Widowed" />
                 </Field>
               </div>
             </div>
@@ -63,18 +63,18 @@ class EmployeeDetails extends React.Component {
                   label="Nationality"
                   fullWidth={true}
                 >
-                  <MenuItem value="1" primaryText="Australia" />
-                  <MenuItem value="2" primaryText="Indonesia" />
-                  <MenuItem value="3" primaryText="Vietnam" />
+                  <MenuItem value="Australia" primaryText="Australia" />
+                  <MenuItem value="Indonesia" primaryText="Indonesia" />
+                  <MenuItem value="Vietnam" primaryText="Vietnam" />
                 </Field>
               </div>
             </div>
             <div className="row">
               <div className="col-xs-6">
-                <Field id="rms-emp-details-email" fullWidth={true} name="Email" component={renderTextField} label="Email" />
+                <Field id="rms-emp-details-email" fullWidth={true} name="email" component={renderTextField} label="Email" />
               </div>
               <div className="col-xs-6">
-                <Field id="rms-emp-details-phone-number" fullWidth={true} name="Phone No." component={renderTextField} label="Phone No." />
+                <Field id="rms-emp-details-phone-number" fullWidth={true} name="phone" component={renderTextField} label="Phone No." />
               </div>
             </div>
             <div className="row">
@@ -86,10 +86,10 @@ class EmployeeDetails extends React.Component {
                   label="Grade"
                   fullWidth={true}
                 >
-                  <MenuItem value="1" primaryText="JP" />
-                  <MenuItem value="2" primaryText="PG" />
-                  <MenuItem value="3" primaryText="AP" />
-                  <MenuItem value="4" primaryText="AN" />
+                  <MenuItem value="JP" primaryText="JP" />
+                  <MenuItem value="PG" primaryText="PG" />
+                  <MenuItem value="AP" primaryText="AP" />
+                  <MenuItem value="AN" primaryText="AN" />
                 </Field>
               </div>
               <div className="col-xs-6">
@@ -100,8 +100,8 @@ class EmployeeDetails extends React.Component {
                   label="Status"
                   fullWidth={true}
                 >
-                  <MenuItem value="1" primaryText="Permanent" />
-                  <MenuItem value="2" primaryText="Contract" />
+                  <MenuItem value="Permanent" primaryText="Permanent" />
+                  <MenuItem value="Contract" primaryText="Contract" />
                 </Field>
               </div>
             </div>
@@ -119,10 +119,10 @@ class EmployeeDetails extends React.Component {
                   label="Division"
                   fullWidth={true}
                 >
-                  <MenuItem value="1" primaryText="CDC" />
-                  <MenuItem value="2" primaryText="SWD Red" />
-                  <MenuItem value="3" primaryText="SWD Blue" />
-                  <MenuItem value="4" primaryText="SWD Purple" />
+                  <MenuItem value="CDC" primaryText="CDC" />
+                  <MenuItem value="SWD Red" primaryText="SWD Red" />
+                  <MenuItem value="SWD Blue" primaryText="SWD Blue" />
+                  <MenuItem value="SWD Purple" primaryText="SWD Purple" />
                 </Field>
               </div>
               <div className="col-xs-6">
@@ -133,17 +133,17 @@ class EmployeeDetails extends React.Component {
                   label="Office"
                   fullWidth={true}
                 >
-                  <MenuItem value="1" primaryText="Bali" />
-                  <MenuItem value="2" primaryText="Bandung" />
-                  <MenuItem value="3" primaryText="Jakarta" />
-                  <MenuItem value="4" primaryText="Yogyakarta" />
-                  <MenuItem value="5" primaryText="Hanoi" />
+                  <MenuItem value="Bali" primaryText="Bali" />
+                  <MenuItem value="Bandung" primaryText="Bandung" />
+                  <MenuItem value="Jakarta" primaryText="Jakarta" />
+                  <MenuItem value="Yogyakarta" primaryText="Yogyakarta" />
+                  <MenuItem value="Hanoi" primaryText="Hanoi" />
                 </Field>
               </div>
             </div>
             <div className="row">
               <div className="col-xs-6">
-                <Field id="rms-emp-details-sub-division" fullWidth={true} name="Sub Division" component={renderTextField} label="Sub Division" />
+                <Field id="rms-emp-details-sub-division" fullWidth={true} name="subDivision" component={renderTextField} label="Sub Division" />
               </div>
             </div>
           </div>
@@ -158,4 +158,5 @@ class EmployeeDetails extends React.Component {
 
 export default reduxForm({
   form: 'EmployeeDetailsForm',
+  destroyOnUnmount: false
 })(EmployeeDetails);

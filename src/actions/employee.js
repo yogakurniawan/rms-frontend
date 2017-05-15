@@ -120,12 +120,15 @@ const requestGetAllEmployees = () => {
 const requestCreateEmployee = (employee) => {
   return (dispatch) => {
     dispatch(addEmployee());
-    return axios.post(`${EMPLOYEE_API_URL}`, {
-      data: employee,
+    const config = {
+      method: 'POST',
+      url: EMPLOYEE_API_URL,
       headers: {
         'Authorization': `Bearer ${Cookie.get('token')}`
-      }
-    }).then((response) => {
+      },
+      data: employee
+    }
+    return axios(config).then((response) => {
       dispatch(addEmployeeSuccess(response.data));
     }).catch((error) => {
       dispatch(addEmployeeError(error.response));

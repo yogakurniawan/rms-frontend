@@ -22,11 +22,15 @@ class DialogForm extends React.Component {
 
   handleNext() {
     const { stepIndex } = this.state;
+    const { saveEmployeeDetails } = this.props;
     this.setState({
       stepIndex: stepIndex + 1,
     });
     if (stepIndex === 5) {
-      // need to add actions create new employee
+      saveEmployeeDetails()
+        .then(() => this.setState({
+          stepIndex: 0,
+        }));
     }
   };
 
@@ -106,7 +110,8 @@ class DialogForm extends React.Component {
 DialogForm.propTypes = {
   components: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired,
+  saveEmployeeDetails: PropTypes.func.isRequired
 }
 
 export default DialogForm;
