@@ -1,9 +1,24 @@
+import {
+  OPEN_NEW_EMPLOYEE_DIALOG,
+  CLOSE_NEW_EMPLOYEE_DIALOG
+} from '../constants'
+
 const initialState = {
-  dummyGlobalState: false
+  newEmployeeDialogOpen: false
 };
 
 const globalReducer = (state = initialState, action) => {
   switch (action.type) {
+    case OPEN_NEW_EMPLOYEE_DIALOG:
+      return {
+        ...state,
+        newEmployeeDialogOpen: true
+      };
+    case CLOSE_NEW_EMPLOYEE_DIALOG:
+      return {
+        ...state,
+        newEmployeeDialogOpen: false
+      };
     default:
       return state;
   }

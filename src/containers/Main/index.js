@@ -5,7 +5,8 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import {
   auth as authActions,
-  employee as employeeActions
+  employee as employeeActions,
+  global as globalActions
 } from '../../actions'
 import { loadItem } from '../../utils/localStorage';
 import { Layout } from '../../components/Layout';
@@ -67,7 +68,7 @@ Main.propTypes = {
 
 const mapDispatchToProps = {
   logout: authActions.logout,
-  openDialog: employeeActions.openNewEmployeeDialog,
+  openDialog: globalActions.openNewEmployeeDialog,
   getAllEmployees: employeeActions.requestGetAllEmployees
 };
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
+import moment from 'moment';
 import qs from 'qs';
 import { saveItem, removeItem } from '../utils/localStorage';
 import {
@@ -103,6 +104,8 @@ const login = (username, password) => {
       } else {
         dispatch(loginSuccess(data));
         Cookie.set('token', data.access_token);
+        Cookie.set('refresh_token', data.refresh_token);
+        Cookie.set('token_expiration_date', moment().add(data.expires_in, 'seconds').format('x'));
         return Promise.resolve(data);
       }
     }).catch(({ response }) => {
@@ -110,6 +113,33 @@ const login = (username, password) => {
       return Promise.reject(response.data);
     });
   };
+};
+
+const refreshToken = (refresh_token) => {
+  const config = {
+    method: 'POST',
+    url: LOGIN_URL,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic Y2xpZW50OnNlY3JldA=='
+    },
+    data: qs.stringify({
+      grant_type: 'refresh_token',
+      refresh_token: Cookie.get('refresh_token')
+    })
+  }
+  return axios(config).then(({ data }) => {
+    if (data.error) {
+      console.log(data.error);
+    } else {
+      Cookie.set('token', data.access_token);
+      Cookie.set('refresh_token', data.refresh_token);
+      Cookie.set('token_expiration_date', moment().add(data.expires_in, 'seconds').format('x'));
+      return Promise.resolve(data.access_token);
+    }
+  }).catch(({ response }) => {
+    console.log(response.data);
+  });
 };
 
 function doLogout() {
@@ -137,5 +167,6 @@ const logout = () => {
 export default {
   login,
   getLoggedInUserInfo,
-  logout
+  logout,
+  refreshToken
 }

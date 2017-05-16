@@ -7,7 +7,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 import DialogForm from '../../components/DialogForm';
 import EmployeeDetails from './EmployeeDetails';
 import {
-  employee as employeeActions
+  employee as employeeActions,
+  global as globalActions
 } from '../../actions'
 
 const innerStyle = {
@@ -87,13 +88,13 @@ NewEmployee.propTypes = {
 };
 
 const mapDispatchToProps = {
-  closeDialog: employeeActions.closeNewEmployeeDialog,
+  closeDialog: globalActions.closeNewEmployeeDialog,
   saveEmployeeDetails: employeeActions.requestCreateEmployee,
   getAllEmployees: employeeActions.requestGetAllEmployees
 };
 
-const mapStateToProps = ({ employee, form }) => ({
-  dialogOpen: employee && employee.newEmployeeDialogOpen,
+const mapStateToProps = ({ employee, form, global }) => ({
+  dialogOpen: global && global.newEmployeeDialogOpen,
   employeeDetailsPayload: form.EmployeeDetailsForm && form.EmployeeDetailsForm.values,
   addingNewEmployee: employee && employee.addingNewEmployee
 });

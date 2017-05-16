@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
-import { invalidTokenError } from '../utils/async'
 import {
   ADD_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
@@ -101,7 +100,6 @@ const requestGetAllEmployees = () => {
       dispatch(loadEmployeeSuccess(response.data));
     }).catch((error) => {
       dispatch(loadEmployeeError(error.response));
-      invalidTokenError(error.response);
     });
   };
 };
@@ -132,7 +130,6 @@ const requestCreateEmployee = (employee) => {
       dispatch(addEmployeeSuccess(response.data));
     }).catch((error) => {
       dispatch(addEmployeeError(error.response));
-      invalidTokenError(error.response);
     });
   };
 };
