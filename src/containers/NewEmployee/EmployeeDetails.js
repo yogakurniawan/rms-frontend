@@ -1,11 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import PropTypes from 'prop-types';
 import Avatar from 'material-ui/Avatar';
 import MenuItem from 'material-ui/MenuItem';
-import { DatePicker } from 'redux-form-material-ui'
+import { DatePicker } from 'redux-form-material-ui';
+import {
+  global as globalActions
+} from '../../actions';
 import { renderTextField, renderSelectField } from '../../components/Form';
 
 class EmployeeDetails extends React.Component {
+
+  componentDidMount() {
+    const { formReset, resetForm, reset } = this.props;
+    if (formReset) {
+      reset();
+      resetForm();
+    }
+  }
+
   render() {
     return (
       <div>
@@ -22,7 +36,8 @@ class EmployeeDetails extends React.Component {
             </div>
             <div className="row">
               <div className="col-xs-6">
-                <Field id="rms-emp-details-dob" fullWidth={true} name="dob" component={DatePicker} format={null} hintText="Date of Birth" />              </div>
+                <Field id="rms-emp-details-dob" fullWidth={true} name="dob" component={DatePicker} format={null} hintText="Date of Birth" />
+              </div>
             </div>
             <div className="row">
               <div className="col-xs-6">
@@ -156,7 +171,21 @@ class EmployeeDetails extends React.Component {
   }
 }
 
-export default reduxForm({
+EmployeeDetails.propTypes = {
+  formReset: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = ({ global }) => ({
+  formReset: global && global.formReset
+});
+
+const mapDispatchToProps = {
+  resetForm: globalActions.resetForm
+};
+
+const WiredUpEmployeeDetails = reduxForm({
   form: 'EmployeeDetailsForm',
   destroyOnUnmount: false
 })(EmployeeDetails);
+
+export default connect(mapStateToProps, mapDispatchToProps)(WiredUpEmployeeDetails);

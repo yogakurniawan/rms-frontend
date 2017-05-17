@@ -52,7 +52,7 @@ class Layout extends React.Component {
       <div>
         <Avatar icon={titleIcon} />
         <span style={{ marginLeft: '10px' }}>
-          {`${userInfo.firstName} ${userInfo.lastName}`} <span style={{ fontSize: '14px' }}>{`(SE - ${userInfo.grade})`}</span>
+          {`${userInfo.firstName} ${userInfo.lastName}`} <span style={{ fontSize: '14px' }}>{`(${userInfo.jobFamily} - ${userInfo.grade})`}</span>
         </span>
       </div>
     );

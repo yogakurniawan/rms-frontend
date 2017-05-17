@@ -15,8 +15,13 @@ class DialogForm extends React.Component {
 
   handlePrev() {
     const { stepIndex } = this.state;
+    const { handleClose } = this.props;
     if (stepIndex > 0) {
       this.setState({ stepIndex: stepIndex - 1 });
+    }
+
+    if (stepIndex === 0) {
+      handleClose();
     }
   }
 
@@ -36,10 +41,17 @@ class DialogForm extends React.Component {
 
   getStepContent(stepIndex) {
     const { components } = this.props;
-    const { EmployeeDetails } = components;
+    const { EmployeeDetails, EmploymentHistory, EmploymentHistoryTable } = components;
     switch (stepIndex) {
       case 0:
         return <EmployeeDetails />;
+      case 1:
+        return (
+          <div>
+            <EmploymentHistory />
+            <EmploymentHistoryTable />
+          </div>
+        );
       default:
         return (
           <div>
@@ -78,8 +90,7 @@ class DialogForm extends React.Component {
 
     const actionsBtn = [
       <RaisedButton
-        label="Back"
-        disabled={stepIndex === 0}
+        label={stepIndex === 0 ? 'Cancel' : 'Back'}
         onTouchTap={this.handlePrev.bind(this)}
       />,
       <RaisedButton

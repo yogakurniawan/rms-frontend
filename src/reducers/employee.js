@@ -4,7 +4,8 @@ import {
   LOAD_EMPLOYEES_ERROR,
   ADD_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
-  ADD_EMPLOYEE_ERROR
+  ADD_EMPLOYEE_ERROR,
+  ADD_EMPLOYMENT_HISTORY
 } from '../constants'
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
   addedEmployee: null,
   loadingEmployee: false,
   loadEmployeeError: null,
-  employeeList: []
+  employeeList: [],
+  employmentHistoryList: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -56,6 +58,14 @@ const reducer = (state = initialState, action) => {
         addingNewEmployee: false,
         addedEmployee: null,
         addNewEmployeeError: error
+      };
+    case ADD_EMPLOYMENT_HISTORY:
+      return {
+        ...state,
+        employmentHistoryList: [
+          ...state.employmentHistoryList,
+          payload
+        ]
       };
     default:
       return state;

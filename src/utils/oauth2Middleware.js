@@ -5,7 +5,7 @@ import { auth } from '../actions';
 function oauth({ dispatch, getState }) {
   return (next) => (action) => {
     // only worry about expiring token for async actions
-    if (!/LOCATION_CHANGE/.test(action.type)) {
+    if (!/@@/.test(action.type)) {
       const tokenExpiration = Cookie.get('token_expiration_date');
       const dateNow = moment().format('x');
       if (tokenExpiration && dateNow >= tokenExpiration - 30) {

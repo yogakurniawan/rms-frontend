@@ -1,6 +1,7 @@
 import {
   OPEN_NEW_EMPLOYEE_DIALOG,
   CLOSE_NEW_EMPLOYEE_DIALOG,
+  RESET_FORM
 } from '../constants';
 
 const openNewEmployeeDialog = () => {
@@ -15,8 +16,15 @@ const closeNewEmployeeDialog = () => {
   }
 };
 
+const resetForm = () => {
+  return {
+    type: RESET_FORM
+  }
+};
+
 
 export default {
   openNewEmployeeDialog,
-  closeNewEmployeeDialog
+  closeNewEmployeeDialog,
+  resetForm
 }

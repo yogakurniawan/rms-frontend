@@ -1,10 +1,12 @@
 import {
   OPEN_NEW_EMPLOYEE_DIALOG,
-  CLOSE_NEW_EMPLOYEE_DIALOG
+  CLOSE_NEW_EMPLOYEE_DIALOG,
+  RESET_FORM
 } from '../constants'
 
 const initialState = {
-  newEmployeeDialogOpen: false
+  newEmployeeDialogOpen: false,
+  formReset: false
 };
 
 const globalReducer = (state = initialState, action) => {
@@ -18,6 +20,11 @@ const globalReducer = (state = initialState, action) => {
       return {
         ...state,
         newEmployeeDialogOpen: false
+      };
+    case RESET_FORM:
+      return {
+        ...state,
+        formReset: !state.formReset
       };
     default:
       return state;

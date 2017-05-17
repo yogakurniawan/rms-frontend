@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
 import DialogForm from '../../components/DialogForm';
 import EmployeeDetails from './EmployeeDetails';
+import EmploymentHistory from './EmploymentHistory';
+import EmploymentHistoryTable from './EmploymentHistoryTable';
 import {
   employee as employeeActions,
   global as globalActions
-} from '../../actions'
+} from '../../actions';
 
 const innerStyle = {
   left: '50%',
@@ -43,23 +44,31 @@ class NewEmployee extends React.Component {
       employeeDetailsPayload,
       getAllEmployees,
       closeDialog,
-      reset
+      resetForm
     } = this.props;
     closeDialog();
     return saveEmployeeDetails(employeeDetailsPayload)
       .then(this.handleOpenNotification)
       .then(getAllEmployees)
-      .then(reset);
+      .then(resetForm);
+  }
+
+  handleClose = () => {
+    const { resetForm, closeDialog } = this.props;
+    resetForm();
+    closeDialog();
   }
 
   render() {
-    const { dialogOpen, closeDialog, addingNewEmployee } = this.props;
+    const { dialogOpen, addingNewEmployee } = this.props;
     const dialogFormProps = {
       components: {
-        EmployeeDetails
+        EmployeeDetails,
+        EmploymentHistory,
+        EmploymentHistoryTable
       },
       saveEmployeeDetails: this.saveEmployeeDetails,
-      handleClose: closeDialog,
+      handleClose: this.handleClose,
       open: dialogOpen
     }
 
@@ -84,11 +93,13 @@ NewEmployee.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   saveEmployeeDetails: PropTypes.func.isRequired,
   getAllEmployees: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
   employeeDetailsPayload: PropTypes.object
 };
 
 const mapDispatchToProps = {
   closeDialog: globalActions.closeNewEmployeeDialog,
+  resetForm: globalActions.resetForm,
   saveEmployeeDetails: employeeActions.requestCreateEmployee,
   getAllEmployees: employeeActions.requestGetAllEmployees
 };
@@ -99,9 +110,4 @@ const mapStateToProps = ({ employee, form, global }) => ({
   addingNewEmployee: employee && employee.addingNewEmployee
 });
 
-const WiredUpNewEmployee = reduxForm({
-  form: 'EmployeeDetailsForm',
-  destroyOnUnmount: false
-})(NewEmployee);
-
-export default connect(mapStateToProps, mapDispatchToProps)(WiredUpNewEmployee);
+export default connect(mapStateToProps, mapDispatchToProps)(NewEmployee);

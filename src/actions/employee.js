@@ -15,7 +15,8 @@ import {
   LOAD_EMPLOYEES,
   LOAD_EMPLOYEES_SUCCESS,
   LOAD_EMPLOYEES_ERROR,
-  BASE_URL
+  BASE_URL,
+  ADD_EMPLOYMENT_HISTORY
 } from '../constants';
 
 const EMPLOYEE_API_URL = `${BASE_URL}/api/employee`;
@@ -39,6 +40,13 @@ const addEmployeeError = (error) => {
   return {
     type: ADD_EMPLOYEE_ERROR,
     error
+  }
+};
+
+const addEmploymentHistory = (payload) => {
+  return {
+    type: ADD_EMPLOYMENT_HISTORY,
+    payload
   }
 };
 
@@ -161,7 +169,8 @@ export default {
   openNewEmployeeDialog,
   closeNewEmployeeDialog,
   // requestGetEmployeeByName,
-  requestCreateEmployee
+  requestCreateEmployee,
+  addEmploymentHistory
   // requestUpdateEmployee,
   // requestDeleteEmployee
 }
