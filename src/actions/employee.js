@@ -16,10 +16,14 @@ import {
   LOAD_EMPLOYEES_SUCCESS,
   LOAD_EMPLOYEES_ERROR,
   BASE_URL,
-  ADD_EMPLOYMENT_HISTORY
+  ADD_EMPLOYMENT_HISTORY,
+  DELETE_EMPLOYMENT_HISTORY,
+  CLEAR_EMPLOYMENT_HISTORIES
 } from '../constants';
+import { generate as generateGuid } from '../utils/uuid';
 
 const EMPLOYEE_API_URL = `${BASE_URL}/api/employee`;
+const EMPLOYMENT_HISTORY_API_URL = `${BASE_URL}/api/history`;
 const ALL_EMPLOYEE_URL = `${EMPLOYEE_API_URL}/all`;
 // const EMPLOYEE_BY_NAME = `${EMPLOYEE_API_URL}/search/name`;
 
@@ -46,7 +50,23 @@ const addEmployeeError = (error) => {
 const addEmploymentHistory = (payload) => {
   return {
     type: ADD_EMPLOYMENT_HISTORY,
-    payload
+    payload: {
+      ...payload,
+      id: generateGuid()
+    }
+  }
+};
+
+const deleteEmploymentHistory = (id) => {
+  return {
+    type: DELETE_EMPLOYMENT_HISTORY,
+    id
+  }
+};
+
+const clearEmploymentHistories = (id) => {
+  return {
+    type: CLEAR_EMPLOYMENT_HISTORIES
   }
 };
 
@@ -123,7 +143,19 @@ const requestGetAllEmployees = () => {
 //   };
 // };
 
-const requestCreateEmployee = (employee) => {
+const requestCreateEmploymentHistory = (employmentHistory) => {
+  const config = {
+    method: 'POST',
+    url: EMPLOYMENT_HISTORY_API_URL,
+    headers: {
+      'Authorization': `Bearer ${Cookie.get('token')}`
+    },
+    data: employmentHistory
+  }
+  return axios(config);
+};
+
+const requestCreateEmployee = ({ employee, employmentHistories }) => {
   return (dispatch) => {
     dispatch(addEmployee());
     const config = {
@@ -135,9 +167,18 @@ const requestCreateEmployee = (employee) => {
       data: employee
     }
     return axios(config).then((response) => {
-      dispatch(addEmployeeSuccess(response.data));
+      const savedEmployee = response.data;
+      const post = [];
+      for (const history of employmentHistories) {
+        history.employeeId = savedEmployee.id;
+        post.push(requestCreateEmploymentHistory(history));
+      }
+      return Promise.all(post)
+        .then(() => dispatch(addEmployeeSuccess(savedEmployee)))
+        .catch((error) => dispatch(addEmployeeError(error.response)));
     }).catch((error) => {
       dispatch(addEmployeeError(error.response));
+      return Promise.reject(error.response);
     });
   };
 };
@@ -170,7 +211,9 @@ export default {
   closeNewEmployeeDialog,
   // requestGetEmployeeByName,
   requestCreateEmployee,
-  addEmploymentHistory
+  addEmploymentHistory,
+  deleteEmploymentHistory,
+  clearEmploymentHistories
   // requestUpdateEmployee,
   // requestDeleteEmployee
 }

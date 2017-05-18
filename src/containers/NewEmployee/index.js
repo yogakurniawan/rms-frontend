@@ -44,18 +44,26 @@ class NewEmployee extends React.Component {
       employeeDetailsPayload,
       getAllEmployees,
       closeDialog,
-      resetForm
+      employmentHistories
     } = this.props;
     closeDialog();
-    return saveEmployeeDetails(employeeDetailsPayload)
-      .then(this.handleOpenNotification)
+    return saveEmployeeDetails({
+      employee: employeeDetailsPayload,
+      employmentHistories: employmentHistories
+    }).then(this.handleOpenNotification)
       .then(getAllEmployees)
-      .then(resetForm);
+      .then(this.resetForm(this.props));
+  }
+
+  resetForm = (props) => () =>{
+    const { clearEmploymentHistories, resetForm } = props;
+    resetForm();
+    clearEmploymentHistories();
   }
 
   handleClose = () => {
-    const { resetForm, closeDialog } = this.props;
-    resetForm();
+    const { closeDialog } = this.props;
+    // this.resetForm(this.props)();
     closeDialog();
   }
 
@@ -94,20 +102,23 @@ NewEmployee.propTypes = {
   saveEmployeeDetails: PropTypes.func.isRequired,
   getAllEmployees: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
-  employeeDetailsPayload: PropTypes.object
+  employeeDetailsPayload: PropTypes.object,
+  employmentHistories: PropTypes.array.isRequired
 };
 
 const mapDispatchToProps = {
   closeDialog: globalActions.closeNewEmployeeDialog,
   resetForm: globalActions.resetForm,
   saveEmployeeDetails: employeeActions.requestCreateEmployee,
-  getAllEmployees: employeeActions.requestGetAllEmployees
+  getAllEmployees: employeeActions.requestGetAllEmployees,
+  clearEmploymentHistories: employeeActions.clearEmploymentHistories
 };
 
 const mapStateToProps = ({ employee, form, global }) => ({
   dialogOpen: global && global.newEmployeeDialogOpen,
   employeeDetailsPayload: form.EmployeeDetailsForm && form.EmployeeDetailsForm.values,
-  addingNewEmployee: employee && employee.addingNewEmployee
+  addingNewEmployee: employee && employee.addingNewEmployee,
+  employmentHistories: employee && employee.employmentHistoryList
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewEmployee);

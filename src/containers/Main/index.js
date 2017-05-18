@@ -49,7 +49,7 @@ class Main extends React.Component {
               <ContentAdd />
             </FloatingActionButton>
           </div>
-          <div className="col-xs-12 col-sm-6 col-md-7 col-lg-8" style={{ paddingLeft: 0 }}>
+          <div className="col-xs-12 col-sm-6 col-md-7 col-lg-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <Tabs />
           </div>
         </div>

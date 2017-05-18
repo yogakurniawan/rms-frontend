@@ -12,10 +12,10 @@ import {
 class EmploymentHistory extends React.Component {
 
   handleSubmit = (evt) => {
-    const { employmentHistory } = this.props;
+    const { employmentHistory, addEmploymentHistory, reset } = this.props;
     evt.preventDefault();
-    debugger;
-    console.log(employmentHistory);
+    addEmploymentHistory(employmentHistory);
+    reset();
   }
 
   render() {

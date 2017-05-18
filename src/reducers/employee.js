@@ -5,7 +5,9 @@ import {
   ADD_EMPLOYEE,
   ADD_EMPLOYEE_SUCCESS,
   ADD_EMPLOYEE_ERROR,
-  ADD_EMPLOYMENT_HISTORY
+  ADD_EMPLOYMENT_HISTORY,
+  DELETE_EMPLOYMENT_HISTORY,
+  CLEAR_EMPLOYMENT_HISTORIES
 } from '../constants'
 
 const initialState = {
@@ -19,7 +21,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  const { payload, error } = action;
+  const { payload, error, id } = action;
   switch (action.type) {
     case LOAD_EMPLOYEES:
       return {
@@ -66,6 +68,22 @@ const reducer = (state = initialState, action) => {
           ...state.employmentHistoryList,
           payload
         ]
+      };
+    case DELETE_EMPLOYMENT_HISTORY:
+      const removeIndex = state.employmentHistoryList.findIndex(item => item.id === id);
+      console.log(removeIndex);
+      console.log(id);
+      return {
+        ...state,
+        employmentHistoryList: [
+          ...state.employmentHistoryList.slice(0, removeIndex),
+          ...state.employmentHistoryList.slice(removeIndex + 1)
+        ]
+      };
+    case CLEAR_EMPLOYMENT_HISTORIES:
+      return {
+        ...state,
+        employmentHistoryList: []
       };
     default:
       return state;

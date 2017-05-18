@@ -77,7 +77,7 @@ class Layout extends React.Component {
           />
           {this.renderNavMenu()}
         </Drawer>
-        <div id="Layout" className="container-fluid Layout" style={{ paddingRight: 0, paddingLeft: 0 }}>
+        <div id="Layout" className="container-fluid Layout" style={{ paddingRight: '1rem', paddingLeft: 0 }}>
           {children}
         </div>
       </div>
